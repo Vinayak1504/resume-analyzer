@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ResumeAI | Analysis Result</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        nav {
+            background: #111827;
+            color: white;
+            padding: 18px 8%;
+        }
+
+        nav h2 {
+            margin: 0;
+        }
+
+        .container {
+            width: 84%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+        }
+
+        /* SCORE */
+
+        .score-card {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+        }
+
+        .score {
+            font-size: 60px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .score-label {
+            color: #6b7280;
+        }
+
+        /* SKILLS */
+
+        .skills {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 12px 0;
+        }
+
+        /* AI */
+
+        .ai-card {
+            margin-top: 25px;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        }
+
+        .ai-content {
+            white-space: pre-wrap;
+            line-height: 1.7;
+            color: #4b5563;
+            margin-top: 15px;
+        }
+
+        .ai-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 15px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            text-decoration: none;
+            color: #111827;
+            font-weight: bold;
+        }
+
+        @media (max-width: 750px) {
+
+            .skills {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .score {
+                font-size: 48px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>ResumeAI</h2>
+
+</nav>
+
+
+<div class="container">
+
+
+    <div class="header">
+
+        <h1>Resume Analysis</h1>
+
+        <p>
+            AI-powered analysis of your resume against the selected job description.
+        </p>
+
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div class="score-card">
+
+        <div class="score"
+             th:text="${matchPercentage} + '%'">
+            0%
+        </div>
+
+        <div class="score-label">
+            Estimated Skill Match
+        </div>
+
+    </div>
+
+
+    <!-- SKILLS -->
+
+    <div class="skills">
+
+
+        <div class="card">
+
+            <h2>✅ Matching Skills</h2>
+
+            <ul>
+
+                <li th:each="skill : ${matchedSkills}"
+                    th:text="${skill}">
+                </li>
+
+                <li th:if="${#lists.isEmpty(matchedSkills)}">
+                    No matching skills detected.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>⚠️ Missing Skills</h2>
+
+            <ul>
+
+                <li th:each="skill : ${missingSkills}"
+                    th:text="${skill}">
+                </li>
+
+                <li th:if="${#lists.isEmpty(missingSkills)}">
+                    No missing skills detected.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- AI INSIGHTS -->
+
+    <div class="ai-card">
+
+        <h2>🤖 AI Resume Insights</h2>
+
+        <div class="ai-content"
+             th:text="${aiInsights}">
+        </div>
+
+        <div class="ai-label">
+
+            Generated locally using Qwen3 0.6B via Ollama.
+
+        </div>
+
+    </div>
+
+
+    <a href="/" class="back">
+        ← Analyze Another Resume
+    </a>
+
+
+</div>
+
+</body>
+
+</html>
